@@ -27,3 +27,26 @@ var ImutableNewUserPrompt = newUserPrompt{
 func (nup newUserPrompt) GetNewUserPrompt() newUserPrompt {
 	return ImutableNewUserPrompt
 }
+
+// Warriors structs/methods
+type Warrior struct {
+	Name         string `json:"name"`
+	Sex          string `json:"sex"`
+	Age          string `json:"age"`
+	Strength     int32  `json:"strength"`
+	Dex          string `json:"dex"`
+	Intelligence int32  `json:"intelligence"`
+	Faith        int32  `json:"faith"`
+	Arcane       int32  `json:"arcane"`
+	Luck         int32  `json:"luck"`
+}
+
+// Player Save File Structs
+type PlayerSave struct {
+	Warriors []Warrior `json:"warriors"`
+}
+
+// Struct for mockDB
+type MockDB struct {
+	PlayerSaves []PlayerSave
+}
