@@ -9,6 +9,8 @@ import (
 
 func GreetUser(W http.ResponseWriter, r *http.Request) {
 	W.Header().Set("Content-Type", "application/json")
+	p := &types.ImutableGreeting.AskHistory
+	*p = "foo"
 	if err := json.NewEncoder(W).Encode(types.ImutableGreeting.GetGreeting()); err != nil {
 		http.Error(W, err.Error(), http.StatusInternalServerError)
 	}
