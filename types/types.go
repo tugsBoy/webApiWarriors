@@ -1,38 +1,33 @@
 package types
 
+import "errors"
+
+//import "errors"
+
 // Greeting For all Players
 type greeting struct {
-	Greet      string `json:"greet"`
-	AskHistory string `json:"askHistory"`
+	Greet        string `json:"greet"`
+	PromptUserID string `json:"promptUserID"`
 }
 
 var ImutableGreeting = greeting{
-	Greet:      "Hello Warrior!",
-	AskHistory: "Do you have a Login?(Yes/No)",
+	Greet:        "Hello Warrior!",
+	PromptUserID: "Please Provide your user ID",
 }
 
 func (g greeting) GetGreeting() greeting {
 	return ImutableGreeting
 }
 
-// New Users
-type newUserPrompt struct {
-	PromptUserName string `json:"promptUserName"`
-}
-
-var ImutableNewUserPrompt = newUserPrompt{
-	PromptUserName: "Hello! Please Provide a Username.",
-}
-
-func (nup newUserPrompt) GetNewUserPrompt() newUserPrompt {
-	return ImutableNewUserPrompt
+type User struct {
+	LoginID string `json:"loginID"`
 }
 
 // Warriors structs/methods
 type Warrior struct {
 	Name         string `json:"name"`
 	Sex          string `json:"sex"`
-	Age          string `json:"age"`
+	Age          int32  `json:"age"`
 	Strength     int32  `json:"strength"`
 	Dex          string `json:"dex"`
 	Intelligence int32  `json:"intelligence"`
@@ -41,12 +36,11 @@ type Warrior struct {
 	Luck         int32  `json:"luck"`
 }
 
-// Player Save File Structs
+// Player Save File Structs and methods
 type PlayerSave struct {
+	LoginId  string    `json:"loginID"`
 	Warriors []Warrior `json:"warriors"`
 }
 
-// Struct for mockDB
-type MockDB struct {
-	PlayerSaves []PlayerSave
-}
+var ErrUserNotFound = errors.New("user not found")
+var ErrBlankUserID = errors.New("blank user ID")

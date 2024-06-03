@@ -8,5 +8,5 @@ import (
 
 func RegisterRoutes() {
 	http.HandleFunc("/", handler.GreetUser)
-	http.HandleFunc("/newPlayer", handler.NewUser)
+	http.HandleFunc("/login", handler.HandleLogin)
 }
