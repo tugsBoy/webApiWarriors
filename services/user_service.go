@@ -1,6 +1,9 @@
 package services
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/tugsBoy/webApiWarriors/types"
 )
 
@@ -10,7 +13,7 @@ import (
 
 //type processLoginImpl struct{}
 
-func ProcessLogin(user types.User) (types.PlayerSave, error) {
+func createDBStub() []types.PlayerSave {
 	stubPlayerTable := []types.PlayerSave{
 		{
 			LoginId: "Justin",
@@ -34,6 +37,11 @@ func ProcessLogin(user types.User) (types.PlayerSave, error) {
 			},
 		},
 	}
+	return stubPlayerTable
+}
+
+func ProcessLogin(user types.User) (types.PlayerSave, error) {
+	stubPlayerTable := createDBStub()
 	if user.LoginID == "" {
 		return types.PlayerSave{}, types.ErrBlankUserID
 	}
@@ -43,4 +51,23 @@ func ProcessLogin(user types.User) (types.PlayerSave, error) {
 		}
 	}
 	return types.PlayerSave{}, types.ErrUserNotFound
+}
+
+func CreateNewUser(user types.User) error {
+	if user.LoginID == "" {
+		return errors.New("JSON parse error:\n Cannot parse incoming JSON to backend data structure")
+	}
+	newPlaerSave := types.PlayerSave{
+		LoginId:  user.LoginID,
+		Warriors: []types.Warrior{},
+	}
+	stubPlayerTable := createDBStub()
+	stubPlayerTable = append(stubPlayerTable, newPlaerSave)
+	fmt.Println(stubPlayerTable)
+	for _, player := range stubPlayerTable {
+		if player.LoginId == user.LoginID {
+			return nil
+		}
+	}
+	return errors.New("Faild to create user " + user.LoginID + ".")
 }

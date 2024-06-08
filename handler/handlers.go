@@ -42,6 +42,25 @@ func HandleLogin(W http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(W).Encode(playerSave)
 }
 
+func HandleCreateUser(W http.ResponseWriter, r *http.Request) {
+	var user types.User
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		http.Error(W, "Invalid JSON input.", http.StatusBadRequest)
+		return
+	}
+	err = services.CreateNewUser(user)
+	if err != nil {
+		http.Error(W, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	success := types.UserCreateSuccess{
+		Success: user.LoginID + " created successfully!",
+	}
+	W.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(W).Encode(success)
+}
+
 // func NewUser(W http.ResponseWriter, r *http.Request) {
 // 	W.Header().Set("Contetn-Type", "application/json")
 // 	if err := json.NewEncoder(W).Encode(types.ImutableNewUserPrompt.GetNewUserPrompt()); err != nil {

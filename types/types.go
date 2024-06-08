@@ -23,6 +23,14 @@ type User struct {
 	LoginID string `json:"loginID"`
 }
 
+type UserCreateSuccess struct {
+	Success string `json:"success"`
+}
+
+type UserCreateFail struct {
+	Fail string `json:"fail"`
+}
+
 // Warriors structs/methods
 type Warrior struct {
 	Name         string `json:"name"`
